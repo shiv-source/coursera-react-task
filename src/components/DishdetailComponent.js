@@ -8,17 +8,15 @@ import {
     CardText,
   } from "reactstrap";
 
-class Dishdetail extends Component {
+class DishDetail extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
   }
 
   render() {
-    const dishDetails = this.props.selectedDishData;
+    const dishDetails = this.props.dish;
     const commentData = () => {
-      const comments = this.props.selectedDishData.comments;
+      const comments = this.props.dish.comments;
 
       if (comments !== undefined || null) {
         const userData = comments.map((data) => {
@@ -73,4 +71,4 @@ class Dishdetail extends Component {
   }
 }
 
-export default Dishdetail;
+export default DishDetail;
