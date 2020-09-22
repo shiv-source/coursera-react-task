@@ -1,5 +1,14 @@
 import React from "react";
-import { Card, CardBody, CardImg, CardText, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
+import { Link } from "react-router-dom";
 
 function RenderDish({ dish }) {
   return (
@@ -35,10 +44,11 @@ function RenderComments({ comment }) {
 const DishDetail = (props) => {
   const selectedDish = () => {
     const dish = props.dish;
-    if (dish) {
-      const userComment = dish.comments.map((comment) => {
-        return <RenderComments comment={comment} />;
-      });
+    const comments = props.comments;
+    if (dish ) {
+      const userComment = comments.map((comment) => {
+         return <RenderComments comment={comment} />;
+       });
 
       return (
         <div className="row">
@@ -53,6 +63,16 @@ const DishDetail = (props) => {
     }
   };
 
-  return <div className="container">{selectedDish()}</div>;
+  return (
+    <div className="container">
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to="/menu">Menu</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+      </Breadcrumb>
+      {selectedDish()}
+    </div>
+  );
 };
 export default DishDetail;
