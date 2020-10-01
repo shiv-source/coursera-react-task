@@ -39,9 +39,7 @@ class CommentForm extends Component {
   }
 
   handleSubmit(value) {
-    alert(JSON.stringify(value));
-    console.log(JSON.stringify(value));
-    this.setState({ isModelOpen: false }); //Closing the model form after submitting it successfully.
+    this.props.addComment(this.props.dishId, value.rating, value.author, value.comment);
   }
 
   render() {
@@ -87,14 +85,14 @@ class CommentForm extends Component {
                 </Row>
                 <Row>
                   <Col>
-                    <Label htmlFor="name"> Your Name </Label>
+                    <Label htmlFor="author"> Your Name </Label>
                   </Col>
                 </Row>
                 <Row className="mb-2">
                   <Col>
                     <Control.text
-                      model=".name"
-                      name="name"
+                      model=".author"
+                      name="author"
                       className="form-control"
                       placeholder="Your Name"
                       validators={{
@@ -153,7 +151,7 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, dishId}) {
   const userComment = comments.map((comment) => {
     return (
       <div key={comment.id}>
@@ -174,7 +172,7 @@ function RenderComments({ comments }) {
   return (
     <div>
       <div>{userComment}</div>
-      <CommentForm />
+      <CommentForm  dishId={dishId} addComment={addComment}/>
     </div>
   );
 }
@@ -189,7 +187,8 @@ const DishDetail = (props) => {
           <div className="row">
             <RenderDish dish={dish} />
             <Card className="col-6 col-md-5 m-2 mt-3">
-              <RenderComments comments={comments} />
+              <RenderComments comments={comments} addComment={props.addComment}
+        dishId={props.dish.id} />
             </Card>
           </div>
         </div>
