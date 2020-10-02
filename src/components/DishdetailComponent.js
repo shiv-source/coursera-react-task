@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
+import { Loading } from "./LoadingComponent";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -39,7 +40,12 @@ class CommentForm extends Component {
   }
 
   handleSubmit(value) {
-    this.props.addComment(this.props.dishId, value.rating, value.author, value.comment);
+    this.props.addComment(
+      this.props.dishId,
+      value.rating,
+      value.author,
+      value.comment
+    );
   }
 
   render() {
@@ -151,7 +157,7 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ comments, addComment, dishId}) {
+function RenderComments({ comments, addComment, dishId }) {
   const userComment = comments.map((comment) => {
     return (
       <div key={comment.id}>
@@ -172,23 +178,50 @@ function RenderComments({ comments, addComment, dishId}) {
   return (
     <div>
       <div>{userComment}</div>
-      <CommentForm  dishId={dishId} addComment={addComment}/>
+      <CommentForm dishId={dishId} addComment={addComment} />
     </div>
   );
 }
 
 const DishDetail = (props) => {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
+      </div>
+    );
+  }
+
   const selectedDish = () => {
     const dish = props.dish;
     const comments = props.comments;
     if (dish) {
       return (
         <div>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/menu">Menu</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
           <div className="row">
             <RenderDish dish={dish} />
             <Card className="col-6 col-md-5 m-2 mt-3">
-              <RenderComments comments={comments} addComment={props.addComment}
-        dishId={props.dish.id} />
+              <RenderComments
+                comments={comments}
+                addComment={props.addComment}
+                dishId={props.dish.id}
+              />
             </Card>
           </div>
         </div>
@@ -198,16 +231,6 @@ const DishDetail = (props) => {
     }
   };
 
-  return (
-    <div className="container">
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <Link to="/menu">Menu</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-      </Breadcrumb>
-      {selectedDish()}
-    </div>
-  );
+  return <div className="container">{selectedDish()}</div>;
 };
 export default DishDetail;
