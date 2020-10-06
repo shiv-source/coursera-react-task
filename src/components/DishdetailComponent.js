@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -147,6 +148,12 @@ class CommentForm extends Component {
 
 function RenderDish({ dish }) {
   return (
+
+    <FadeTransform
+    in
+    transformProps={{
+        exitTransform: 'scale(0.5) translateY(-50%)'
+    }}>
     <Card className="col-12 col-md-5 m-2 mt-3">
       <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}></CardImg>
       <CardTitle>
@@ -155,14 +162,19 @@ function RenderDish({ dish }) {
       </CardTitle>
       <CardText>{dish.description}</CardText>
     </Card>
+    </FadeTransform>
   );
 }
 
 function RenderComments({ comments, postComment, dishId }) {
   const userComment = comments.map((comment) => {
+    
     return (
+
+      <Stagger in>
       <div key={comment.id}>
         <CardBody>
+        <Fade in>
           <p>{comment.comment}</p>
           <p>
             -- {comment.author} ,{" "}
@@ -172,8 +184,10 @@ function RenderComments({ comments, postComment, dishId }) {
               day: "2-digit",
             }).format(new Date(Date.parse(comment.date)))}
           </p>
+          </Fade>
         </CardBody>
       </div>
+      </Stagger>
     );
   });
   return (
