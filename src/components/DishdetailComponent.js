@@ -18,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from '../shared/baseUrl';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -147,7 +148,7 @@ class CommentForm extends Component {
 function RenderDish({ dish }) {
   return (
     <Card className="col-12 col-md-5 m-2 mt-3">
-      <CardImg width="100%" src={dish.image} alt={dish.name}></CardImg>
+      <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}></CardImg>
       <CardTitle>
         {" "}
         <h2>{dish.name}</h2>
