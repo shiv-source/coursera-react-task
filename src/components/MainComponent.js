@@ -38,6 +38,7 @@ class Main extends Component {
   }
 
   render() {
+   // console.log("this.props.dishes.errMess", this.props.dishes.errMess)
     const HomePage = () => {
       return (
       <Home 
