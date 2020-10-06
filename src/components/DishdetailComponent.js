@@ -154,7 +154,7 @@ function RenderDish({ dish }) {
     transformProps={{
         exitTransform: 'scale(0.5) translateY(-50%)'
     }}>
-    <Card className="col-12 col-md-5 m-2 mt-3">
+    <Card>
       <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}></CardImg>
       <CardTitle>
         {" "}
@@ -171,8 +171,9 @@ function RenderComments({ comments, postComment, dishId }) {
     
     return (
 
-      <Stagger in>
+     
       <div key={comment.id}>
+         <Stagger in>
         <CardBody>
         <Fade in>
           <p>{comment.comment}</p>
@@ -186,8 +187,9 @@ function RenderComments({ comments, postComment, dishId }) {
           </p>
           </Fade>
         </CardBody>
+        </Stagger>
       </div>
-      </Stagger>
+   
     );
   });
   return (
@@ -230,7 +232,9 @@ const DishDetail = (props) => {
             <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
           </Breadcrumb>
           <div className="row">
+            <div  className="col-12 col-md-5 m-2 mt-3"> 
             <RenderDish dish={dish} />
+            </div>
             <Card className="col-6 col-md-5 m-2 mt-3">
               <RenderComments
                 comments={comments}
