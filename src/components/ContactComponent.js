@@ -40,8 +40,11 @@ class Contact extends Component {
   }
 
   handleSubmit(value) {
-    alert(JSON.stringify(value));
+   // alert(JSON.stringify(value));
+    this.props.postFeedback(value);
     this.props.resetFeedbackForm();
+    
+
   }
 
   render() {
